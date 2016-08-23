@@ -51,16 +51,16 @@ public class Queries {
 
 
     //Todo : change the name shirel...
-    final public static String insertServiceReqSql =
+    final public static String INSERT_SERVICE_REQ_SQL =
             "insert into shirel_service_req_M2 (sr_cust_oozid, title, description, problem_type," +
                     "request_user, submit_user, responsibility, assigned_group, insert_time, close_time, update_time," +
                     "status, priority, impact, urgency, sr_cust_oozemail, sr_cust_oozoffice, sr_cust_oozphone, sr_cust_oozstorenum, sr_cust_referral_comp, sr_cust_referral_num," +
                     "source, version, sr_type, sr_sub_type, account_id) " +
-                    "values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ";
+                    "values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ";
 
 
     //TODO:change name of the table
-    final public static String insertServiceReqHistorySql =
+    final public static String INSERT_SERVICE_REQ_HISTORY_SQL =
             "insert into shirel_service_req_history_M2 (sr_cust_oozid, title, description, problem_type," +
                     "request_user, submit_user, responsibility, assigned_group, insert_time, close_time, update_time," +
                     "status, priority, impact, urgency, sr_cust_oozemail, sr_cust_oozoffice, sr_cust_oozphone, sr_cust_oozstorenum, sr_cust_referral_comp, sr_cust_referral_num, id" +

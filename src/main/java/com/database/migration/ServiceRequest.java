@@ -9,8 +9,6 @@ import com.utils.Queries;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.Date;
 
 
 public class ServiceRequest {
@@ -77,7 +75,7 @@ public class ServiceRequest {
             ps.setString(26, "inglesmkts");//account_id
 
             if (isHistory) {
-                ps.setInt(28, this.id);
+                ps.setInt(27, this.id);
             }
 
             ps.executeUpdate();
@@ -248,7 +246,7 @@ public class ServiceRequest {
     }
 
     public static String getInsertServiceReqSql() {
-        return Queries.insertServiceReqSql;
+        return Queries.INSERT_SERVICE_REQ_SQL;
     }
 
     public int getId() {

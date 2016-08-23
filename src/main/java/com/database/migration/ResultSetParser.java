@@ -82,7 +82,7 @@ public class ResultSetParser {
                             serviceRequest.setSr_cust_oozstorenum(recordVal);
                             break;
                         case 14://ref_company
-                            serviceRequest.setSr_cust_referral_comp(Integer.parseInt(recordVal));
+                            serviceRequest.setSr_cust_referral_comp(MappingValues.refCompanyToReferralComp.get(recordVal) == null ? 0 : MappingValues.refCompanyToReferralComp.get(recordVal));
                             break;
                         case 15://ref_num
                             serviceRequest.setSr_cust_referral_num(recordVal);
@@ -98,12 +98,6 @@ public class ResultSetParser {
             srRecords.add(serviceRequest);
             issueIdToServReq.put(serviceRequest.getSr_cust_oozid(), serviceRequest);
 
-
-            //TODO : remove the 'break' blow: - meanwhile for testing
-          /*  counter++;
-            if (counter == 40000) {
-                break;
-            }*/
 
         } //Close While
     }
