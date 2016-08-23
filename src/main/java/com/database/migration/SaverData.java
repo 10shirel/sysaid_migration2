@@ -8,16 +8,16 @@ import javax.sql.DataSource;
 import java.sql.*;
 import java.util.List;
 
-import static com.sysaid.Main.issueIdToServReq;
+import static com.sysaid.Manager.issueIdToServReq;
 
 
 /**
- * Created by Shirel Azulay on 3/8/2016.
+ * Created by Shirel Azulay on 23/08/2016.
  */
 
 
-public class Saver {
-    private static Logger LOGGER = LoggerFactory.getLogger(Saver.class);
+public class SaverData {
+    private static Logger LOGGER = LoggerFactory.getLogger(SaverData.class);
 
     /**
      *

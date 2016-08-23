@@ -1,7 +1,7 @@
 package com.pojo;
 
 /**
- * Created by shirel on 4/08/2016.
+ * Created by Shirel Azulay on 23/08/2016.
  */
 
 public class ResultSetIssueHistory {

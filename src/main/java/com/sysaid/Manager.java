@@ -15,10 +15,10 @@ import java.util.*;
 
 
 /**
- * Created by shirel on 24/07/2016.
+ * Created by Shirel Azulay on 23/08/2016.
  */
 
-public class Main implements CommandLineRunner {
+public class Manager implements CommandLineRunner {
 
     static public List<ServiceRequest> srRecords = new ArrayList<>();
     static public Map<Integer, ServiceRequest> issueIdToServReq = new HashMap<>();
@@ -103,10 +103,10 @@ public class Main implements CommandLineRunner {
             ResultSetParser.parseResultSetToServiceRequest(rsIssuesView);
 
             //populate service_req
-            Saver.updateServiceReqTable(targetDs, Queries.insertServiceReqSql, srRecords, false);
+            SaverData.updateServiceReqTable(targetDs, Queries.insertServiceReqSql, srRecords, false);
 
             //populate service_req_history
-            Saver.updateServiceReqHistoryTable(targetDs, Queries.insertServiceReqHistorySql, queryIdOfServiceRec, srRecords);
+            SaverData.updateServiceReqHistoryTable(targetDs, Queries.insertServiceReqHistorySql, queryIdOfServiceRec, srRecords);
 
             //Clean data of last iteration
             cleanLastIterationSR();
@@ -117,17 +117,17 @@ public class Main implements CommandLineRunner {
 // use for testing
  public static void populateTablesServiceReqAndServiceReqHistoryTest(int aMin, int incremental, int limit, DriverManagerDataSource targetDs, Statement stIssuesView, String queryIdOfServiceRec) throws Exception {
 
-            String queryIssuesView = Queries.buildQueryOozTickets("where IssueId in (13,974)");
+            String queryIssuesView = Queries.buildQueryOozTickets("where id in (13,974)");
             ResultSet rsIssuesView = stIssuesView.executeQuery(queryIssuesView);
 
 
             ResultSetParser.parseResultSetToServiceRequest(rsIssuesView);
 
             //populate service_req
-            Saver.updateServiceReqTable(targetDs, Queries.insertServiceReqSql, srRecords, false);
+            SaverData.updateServiceReqTable(targetDs, Queries.insertServiceReqSql, srRecords, false);
 
             //populate service_req_history
-            Saver.updateServiceReqHistoryTable(targetDs, Queries.insertServiceReqHistorySql, queryIdOfServiceRec, srRecords);
+            SaverData.updateServiceReqHistoryTable(targetDs, Queries.insertServiceReqHistorySql, queryIdOfServiceRec, srRecords);
 
             //Clean data of last iteration
             cleanLastIterationSR();

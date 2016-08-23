@@ -6,7 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Created by pavel.sopher on 7/12/2016.
+ * Created by Shirel Azulay on 23/08/2016.
  */
 public class DateUtils {
     public static final String DateFormatAmPmHMS = "yyyy-MM-dd HH:mm:ss.SSS";

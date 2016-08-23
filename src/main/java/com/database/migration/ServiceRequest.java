@@ -2,9 +2,8 @@ package com.database.migration;
 
 
 /**
- * Created by Shirel Azulay 24.7.16.
+ * Created by Shirel Azulay on 23/08/2016.
  */
-
 import com.utils.Queries;
 
 import java.sql.PreparedStatement;
@@ -16,101 +15,71 @@ import java.util.Date;
 
 public class ServiceRequest {
     private int id;
-    private int sr_cust_issueid;
+    private int sr_cust_oozid;
     private String title;
     private String description;
-    private String resolution;
     private String problem_type;
     private String request_user;
     private String submit_user;
     private String responsibility;
+    private String assigned_group;
     private String insert_time;
-    private Date close_time;
-    private Date due_date;
-    private Date update_time;
+    private String close_time;
+    private String update_time;
     private int status;
-    private int urgency;
-    private int impact;
     private int priority;
-    private String sr_cust_Milestone;
-    private String sr_cust_affMilestone;
-    private String sr_cust_issuetype;
-    private String sr_cust_partner;
-    private String sr_cust_oldcompany;
-    private float sr_cust_issest;
-    private float sr_cust_isstime;
-    private int parent_link;
-    private String sr_cust_parent;
-    private String sr_cust_related;
+    private int impact;
+    private int urgency;
+    private String sr_cust_oozemail;
+    private String sr_cust_oozoffice;
+    private String sr_cust_oozphone;
+    private String sr_cust_oozstorenum;
+    private int sr_cust_referral_comp;
+    private String sr_cust_referral_num;
     private int source;
+    private int version;
     private int sr_type;
     private int sr_sub_type;
     private String account_id;
-    //TODO : what is it version
-    private int version;
-    private String notes;
-    private String sr_cust_IssHistory;
+
 
 
     public void save(PreparedStatement ps, boolean isHistory) throws SQLException {
         try {
-            ps.setInt(1, this.sr_cust_issueid);
+            ps.setInt(1, this.sr_cust_oozid);
             ps.setString(2, this.title);
-            if (this.sr_cust_issueid==20672 || this.sr_cust_issueid==20674){
-                ps.setString(3, getValidString(this.description));
-            }else{
-                ps.setString(3, this.description);
-            }
-            ps.setString(4, this.resolution);
-            ps.setString(5, this.problem_type);
-            ps.setString(6, this.request_user);
-            ps.setString(7, this.submit_user);
-            ps.setString(8, this.responsibility);
+            ps.setString(3, this.description);
+            ps.setString(4, this.problem_type);
+            ps.setString(5, this.request_user);
+            ps.setString(6, this.submit_user);
+            ps.setString(7, this.responsibility);
+            ps.setString(8, this.assigned_group);
             ps.setString(9, this.insert_time);
-            ps.setTimestamp(10, this.close_time == null ? null : new Timestamp(this.close_time.getTime()));
+            ps.setString(10, this.close_time);
+            ps.setString(11, this.update_time);
+            /*ps.setTimestamp(10, this.close_time == null ? null : new Timestamp(this.close_time.getTime()));
             ps.setTimestamp(11, this.due_date == null ? null : new Timestamp(this.due_date.getTime()));
-            ps.setTimestamp(12, this.update_time == null ? null : new Timestamp(this.update_time.getTime()));
-            ps.setInt(13, this.status);
-            ps.setInt(14, this.priority);
-            ps.setInt(15, 5);
-            ps.setInt(16, 5);
-            ps.setString(17, this.sr_cust_Milestone);
-            ps.setString(18, this.sr_cust_affMilestone);
-            ps.setString(19, this.sr_cust_issuetype);
-            ps.setFloat(20, this.sr_cust_issest);
-            ps.setFloat(21, this.sr_cust_isstime);
-            ps.setString(22, this.sr_cust_partner);
-            ps.setString(23, this.sr_cust_oldcompany);
-            ps.setString(24, this.sr_cust_parent);
-            ps.setString(25, this.sr_cust_related);
-            ps.setInt(26, 1);
-            ps.setInt(27, 1);
-            ps.setInt(28, 20);
-            ps.setString(29, "its");
-            ps.setInt(30, 1);
-            ps.setString(31, this.notes);
-            ps.setString(32, this.sr_cust_IssHistory);
+            ps.setTimestamp(12, this.update_time == null ? null : new Timestamp(this.update_time.getTime()));*/
+            ps.setInt(12, 3); //status
+            ps.setInt(13, this.priority);
+            ps.setInt(14, 5); //impact
+            ps.setInt(15, 5); //urgency
+            ps.setString(16, this.sr_cust_oozemail);
+            ps.setString(17, this.sr_cust_oozoffice);
+            ps.setString(18, this.sr_cust_oozphone);
+            ps.setString(19, this.sr_cust_oozstorenum);
+            ps.setInt(20, this.sr_cust_referral_comp);
+            ps.setString(21, this.sr_cust_referral_num);
+            ps.setInt(22, 1);//source
+            ps.setInt(23, 1);//version
+            ps.setInt(24, 1);//sr_type
+            ps.setInt(25, 999999999);//sr_sub_type
+            ps.setString(26, "inglesmkts");//account_id
+
             if (isHistory) {
-                ps.setInt(33, this.id);
+                ps.setInt(28, this.id);
             }
 
-/*            ps.addBatch();
-
-            if (!isHistory) {
-                if (batchCounterSR > 50) {
-                    int[] affectedRecordsSR = ps.executeBatch();
-                    batchCounterSR = 0;
-                }
-                batchCounterSR++;
-
-            } else {
-                if (batchCounterSRHistory > 50) {
-                    int[] affectedRecordsSRHistory = ps.executeBatch();
-                    batchCounterSRHistory = 0;
-                }
-                batchCounterSRHistory++;
-
-            }*/
             ps.executeUpdate();
 
         } catch (Exception e) {
@@ -122,8 +91,8 @@ public class ServiceRequest {
 
     public ResultSet getAllRecordThatWasInsertedToServiceReq(PreparedStatement ps) throws SQLException {
         try {
-            System.out.println("this.sr_cust_issueid = "+ this.sr_cust_issueid);
-            ps.setInt(1, this.sr_cust_issueid);
+            System.out.println("this.sr_cust_oozid = "+ this.sr_cust_oozid);
+            ps.setInt(1, this.sr_cust_oozid);
             return ps.executeQuery();
 
         } catch (Exception e) {
@@ -133,13 +102,6 @@ public class ServiceRequest {
     }
 
 
-    public int getSr_cust_issueid() {
-        return sr_cust_issueid;
-    }
-
-    public void setSr_cust_issueid(int sr_cust_issueid) {
-        this.sr_cust_issueid = sr_cust_issueid;
-    }
 
     public String getTitle() {
         return title;
@@ -155,14 +117,6 @@ public class ServiceRequest {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getResolution() {
-        return resolution;
-    }
-
-    public void setResolution(String resolution) {
-        this.resolution = resolution;
     }
 
     public String getProblem_type() {
@@ -205,27 +159,19 @@ public class ServiceRequest {
         this.insert_time = insert_time;
     }
 
-    public Date getClose_time() {
+    public String getClose_time() {
         return close_time;
     }
 
-    public void setClose_time(Date close_time) {
+    public void setClose_time(String close_time) {
         this.close_time = close_time;
     }
 
-    public Date getDue_date() {
-        return due_date;
-    }
-
-    public void setDue_date(Date due_date) {
-        this.due_date = due_date;
-    }
-
-    public Date getUpdate_time() {
+    public String getUpdate_time() {
         return update_time;
     }
 
-    public void setUpdate_time(Date update_time) {
+    public void setUpdate_time(String update_time) {
         this.update_time = update_time;
     }
 
@@ -259,78 +205,6 @@ public class ServiceRequest {
 
     public void setPriority(int priority) {
         this.priority = priority;
-    }
-
-    public String getSr_cust_Milestone() {
-        return sr_cust_Milestone;
-    }
-
-    public void setSr_cust_Milestone(String sr_cust_Milestone) {
-        this.sr_cust_Milestone = sr_cust_Milestone;
-    }
-
-    public String getSr_cust_affMilestone() {
-        return sr_cust_affMilestone;
-    }
-
-    public void setSr_cust_affMilestone(String sr_cust_affMilestone) {
-        this.sr_cust_affMilestone = sr_cust_affMilestone;
-    }
-
-    public String getSr_cust_issuetype() {
-        return sr_cust_issuetype;
-    }
-
-    public void setSr_cust_issuetype(String sr_cust_issuetype) {
-        this.sr_cust_issuetype = sr_cust_issuetype;
-    }
-
-    public String getSr_cust_partner() {
-        return sr_cust_partner;
-    }
-
-    public void setSr_cust_partner(String sr_cust_partner) {
-        this.sr_cust_partner = sr_cust_partner;
-    }
-
-    public float getSr_cust_issest() {
-        return sr_cust_issest;
-    }
-
-    public void setSr_cust_issest(float sr_cust_issest) {
-        this.sr_cust_issest = sr_cust_issest;
-    }
-
-    public float getSr_cust_isstime() {
-        return sr_cust_isstime;
-    }
-
-    public void setSr_cust_isstime(float sr_cust_isstime) {
-        this.sr_cust_isstime = sr_cust_isstime;
-    }
-
-    public String getSr_cust_oldcompany() {
-        return sr_cust_oldcompany;
-    }
-
-    public void setSr_cust_oldcompany(String sr_cust_oldcompany) {
-        this.sr_cust_oldcompany = sr_cust_oldcompany;
-    }
-
-    public int getParent_link() {
-        return parent_link;
-    }
-
-    public void setParent_link(int parent_link) {
-        this.parent_link = parent_link;
-    }
-
-    public String getSr_cust_related() {
-        return sr_cust_related;
-    }
-
-    public void setSr_cust_related(String sr_cust_related) {
-        this.sr_cust_related = sr_cust_related;
     }
 
     public int getSource() {
@@ -373,24 +247,8 @@ public class ServiceRequest {
         this.version = version;
     }
 
-    public String getNotes() {
-        return notes;
-    }
-
-    public void setNotes(String notes) {
-        this.notes = notes;
-    }
-
     public static String getInsertServiceReqSql() {
         return Queries.insertServiceReqSql;
-    }
-
-    public String getSr_cust_parent() {
-        return sr_cust_parent;
-    }
-
-    public void setSr_cust_parent(String sr_cust_parent) {
-        this.sr_cust_parent = sr_cust_parent;
     }
 
     public int getId() {
@@ -401,14 +259,69 @@ public class ServiceRequest {
         this.id = id;
     }
 
-    public String getSr_cust_IssHistory() {
-        return sr_cust_IssHistory;
+    public int getSr_cust_oozid() {
+        return sr_cust_oozid;
     }
 
-    public void setSr_cust_IssHistory(String sr_cust_IssHistory) {
-        this.sr_cust_IssHistory = sr_cust_IssHistory;
+    public void setSr_cust_oozid(int sr_cust_oozid) {
+        this.sr_cust_oozid = sr_cust_oozid;
     }
 
+    public String getAssigned_group() {
+        return assigned_group;
+    }
+
+    public void setAssigned_group(String assigned_group) {
+        this.assigned_group = assigned_group;
+    }
+
+    public String getSr_cust_oozemail() {
+        return sr_cust_oozemail;
+    }
+
+    public void setSr_cust_oozemail(String sr_cust_oozemail) {
+        this.sr_cust_oozemail = sr_cust_oozemail;
+    }
+
+    public String getSr_cust_oozoffice() {
+        return sr_cust_oozoffice;
+    }
+
+    public void setSr_cust_oozoffice(String sr_cust_oozoffice) {
+        this.sr_cust_oozoffice = sr_cust_oozoffice;
+    }
+
+    public String getSr_cust_oozphone() {
+        return sr_cust_oozphone;
+    }
+
+    public void setSr_cust_oozphone(String sr_cust_oozphone) {
+        this.sr_cust_oozphone = sr_cust_oozphone;
+    }
+
+    public String getSr_cust_oozstorenum() {
+        return sr_cust_oozstorenum;
+    }
+
+    public void setSr_cust_oozstorenum(String sr_cust_oozstorenum) {
+        this.sr_cust_oozstorenum = sr_cust_oozstorenum;
+    }
+
+    public int getSr_cust_referral_comp() {
+        return sr_cust_referral_comp;
+    }
+
+    public void setSr_cust_referral_comp(int sr_cust_referral_comp) {
+        this.sr_cust_referral_comp = sr_cust_referral_comp;
+    }
+
+    public String getSr_cust_referral_num() {
+        return sr_cust_referral_num;
+    }
+
+    public void setSr_cust_referral_num(String sr_cust_referral_num) {
+        this.sr_cust_referral_num = sr_cust_referral_num;
+    }
 
     public String getValidString(String invalidString){
         return invalidString.replace("\uD83D\uDE03"," ");

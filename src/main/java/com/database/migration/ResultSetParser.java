@@ -1,22 +1,17 @@
 package com.database.migration;
 
-import com.pojo.ResultSetIssueHistory;
 import com.utils.DateUtils;
 import com.utils.MappingValues;
-import com.pojo.ResultSetIssueCommentsView;
-import com.pojo.ResultSetRelatedIssues;
 import org.jsoup.Jsoup;
 
-import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.*;
 
-import static com.sysaid.Main.*;
+import static com.sysaid.Manager.*;
 
 /**
- * Created by Shirel Azulay 24.7.16
+ * Created by Shirel Azulay on 23/08/2016.
  */
 
 public class ResultSetParser {
@@ -24,13 +19,19 @@ public class ResultSetParser {
     public static void parseResultSetToServiceRequest(ResultSet rsIssuesView) throws Exception {
 
 
-        //Populate the most of the fields , those fields use only one query as reference
+        //Populate the most of the fields - regular fields (not complex) , all those fields use only one query as reference
         populateServiceReqBaseFileds(rsIssuesView);
 
 
     }
 
 
+    /**
+     *
+     * @param rsIssuesView
+     * @throws SQLException
+     * @throws ParseException
+     */
     private static void populateServiceReqBaseFileds(ResultSet rsIssuesView) throws SQLException, ParseException {
         int counter = 0;
 
@@ -40,60 +41,51 @@ public class ResultSetParser {
                 if (rsIssuesView.getString(i) != null && !rsIssuesView.getString(i).isEmpty()) {
                     String recordVal = rsIssuesView.getString(i).trim();
                     switch (i) {
-                        case 1://IV.IssueId
-                            serviceRequest.setSr_cust_issueid(Integer.parseInt(recordVal));
+                        case 1://id
+                            serviceRequest.setSr_cust_oozid((Integer.parseInt(recordVal)));
                             break;
-                        case 2://IssueTitle
+                        case 2://short
                             serviceRequest.setTitle(recordVal);
                             break;
-                        case 3://IssueDescription
+                        case 3://description
                             serviceRequest.setDescription(Jsoup.parse(recordVal).text());
                             break;
-                        case 4://ResolutionName
-                            serviceRequest.setResolution(recordVal);
-                            break;
-                        case 5://CategoryName
+                        case 4://category
                             serviceRequest.setProblem_type(recordVal);
                             break;
-                        case 6://OwnerUserName
+                        case 5://user
                             serviceRequest.setRequest_user(recordVal);
-                            break;
-                        case 7://CreatorUserName
                             serviceRequest.setSubmit_user(recordVal);
                             break;
-                        case 8://AssignedUserName
+                        case 6://supporter
                             serviceRequest.setResponsibility(recordVal);
                             break;
-                        case 9://DateCreated
+                        case 7://create_date
                             serviceRequest.setInsert_time(recordVal);
                             break;
-                        case 10://LastUpdate
-                            serviceRequest.setClose_time(DateUtils.convertStringToDate(DateUtils.DateFormatAmPmHMS, recordVal));
-                            serviceRequest.setUpdate_time(DateUtils.convertStringToDate(DateUtils.DateFormatAmPmHMS, recordVal));
+                        case 8://lastupdate
+                            serviceRequest.setUpdate_time(recordVal);
                             break;
-                        case 11://IssueDueDate
-                            serviceRequest.setDue_date(DateUtils.convertStringToDate(DateUtils.DateFormatAmPmHMS, recordVal));
-                            break;
-                        case 12://StatusName
-                            serviceRequest.setStatus(MappingValues.status.get(recordVal) == null ? 0 : MappingValues.status.get(recordVal));
-                            break;
-                        case 13://PriorityName
+                        case 9://priority
                             serviceRequest.setPriority(MappingValues.priority.get(recordVal) == null ? 0 : MappingValues.priority.get(recordVal));
                             break;
-                        case 14://MilestoneName
-                            serviceRequest.setSr_cust_Milestone(recordVal);
+                        case 10://email
+                            serviceRequest.setSr_cust_oozemail(recordVal);
                             break;
-                        case 15://AffectedMilestoneName
-                            serviceRequest.setSr_cust_affMilestone(recordVal);
+                        case 11://office
+                            serviceRequest.setSr_cust_oozoffice(recordVal);
                             break;
-                        case 16://IssueTypeName
-                            serviceRequest.setSr_cust_issuetype(recordVal);
+                        case 12://phone
+                            serviceRequest.setSr_cust_oozphone(recordVal);
                             break;
-                        case 17://IssueEstimation
-                            serviceRequest.setSr_cust_issest(Float.parseFloat(recordVal));
+                        case 13://storenum
+                            serviceRequest.setSr_cust_oozstorenum(recordVal);
                             break;
-                        case 18://TimeLogged
-                            serviceRequest.setSr_cust_isstime(Float.parseFloat(recordVal));
+                        case 14://ref_company
+                            serviceRequest.setSr_cust_referral_comp(Integer.parseInt(recordVal));
+                            break;
+                        case 15://ref_num
+                            serviceRequest.setSr_cust_referral_num(recordVal);
                             break;
 
                         default:
@@ -104,7 +96,7 @@ public class ResultSetParser {
                 }
             } // Close for
             srRecords.add(serviceRequest);
-            issueIdToServReq.put(serviceRequest.getSr_cust_issueid(), serviceRequest);
+            issueIdToServReq.put(serviceRequest.getSr_cust_oozid(), serviceRequest);
 
 
             //TODO : remove the 'break' blow: - meanwhile for testing
